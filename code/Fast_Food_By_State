@@ -1,0 +1,35 @@
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+url = 'https://worldpopulationreview.com/state-rankings/most-popular-fast-food-by-state'
+# Step 1: Read all tables on the page
+tables = pd.read_html(url)
+# Step 2: Pick the first table (if only one table exists)
+df = tables[0]
+
+# Seperate the column [Most Search For] from the top 3 into different columns
+split_cols = df['Most Searched For'].str.split(r'\d\.\s*', expand=True)
+df['Rank1'] = split_cols[1]
+df['Rank2'] = split_cols[2]
+df['Rank3'] = split_cols[3]
+
+print(df[['State', 'Rank1']])
+
+# Count the occurrences of each unique value in the 'Rank1' column
+rank1_counts = df['Rank1'].value_counts()
+
+# Print the result
+print(rank1_counts)
+
+
+# Plots the Box chart based on the result
+plt.figure(figsize=(10, 6))  # Optional: Set the figure size
+sns.barplot(x=rank1_counts.index, y=rank1_counts.values, palette='viridis')
+plt.title('Top Fast Food Chains in Rank1')  # Title of the chart
+plt.xlabel('Fast Food Chain')  # X-axis label
+plt.ylabel('Count')  # Y-axis label
+plt.xticks(rotation=45)  # Rotate x-axis labels for better readability (if needed)
+
+# Step 4: Show the chart
+plt.show() 

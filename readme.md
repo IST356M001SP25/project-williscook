@@ -7,7 +7,7 @@ For the project you can do anything you want, provided it uses what we learned i
 
 1. Python functions in modules with tests
 
-2. Streamlit for user interface
+2. Streamlit for user interface   
 
 3. Pandas for data manipulation
 

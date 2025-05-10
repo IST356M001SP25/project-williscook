@@ -22,4 +22,4 @@ Examples:
 **Best Reflection** "I learned when to use while vs for loops. While loops are for sentiel-controlled values (waiting for a condition to occur), vs for loops are for iterating over collections of fixed values."
 
 `--- Reflection Below This Line ---`
-
+I have understood that how to extract the data acorss different websites, load the data into the VScode, convert the data to Pandas Dataframe, clean and format the data by dropping the non-values and make the columns unique, and demonstrate the data by using streamlit and data virtualizations so the audience can understand it quickly. This project is very important for working in the future becauase it all comes to implmentatation, critical thinking, and logical actions.

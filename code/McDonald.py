@@ -45,18 +45,23 @@ sugar_min, sugar_max = st.slider(
 )
 
 # Filter data
-filtered_df = McDonald_df[
+filtered_McDonald = McDonald_df[
     (McDonald_df['Protein (g)'] >= protein_min) & (McDonald_df['Protein (g)'] <= protein_max) &
     (McDonald_df['Sugar (g)'] >= sugar_min) & (McDonald_df['Sugar (g)'] <= sugar_max)
 ]
 
+# Search bar
+search_term = st.text_input("🔍 Search by item name:")
+if search_term:
+    filtered_McDonald = filtered_McDonald[filtered_McDonald['Item'].str.contains(search_term, case=False, na=False)]
+
 # Show results
-st.write(f"🍟 Found {len(filtered_df)} McDonald's items matching your filters:")
-st.dataframe(filtered_df.reset_index(drop=True))
+st.write(f"🍟 Found {len(filtered_McDonald)} McDonald's items matching your filters:")
+st.dataframe(filtered_McDonald.reset_index(drop=True))
 
 # Plot results
 st.subheader("Top Filtered McDonald's Items by Protein")
-top_items = filtered_df.sort_values(by='Protein (g)', ascending=False).head(10)
+top_items = filtered_McDonald.sort_values(by='Protein (g)', ascending=False).head(10)
 
 fig, ax = plt.subplots(figsize=(10, 6))
 sns.barplot(data=top_items, x='Protein (g)', y='Item', palette='flare', ax=ax)

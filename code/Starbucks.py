@@ -3,12 +3,11 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import streamlit as st
 
-#Load Data
+# Load Data
 Starbucks_df = pd.read_csv('/Users/williamcook/ist356M001SP25/project-williscook/Cache/Starbucks.csv')
 
 # Clean column names
 Starbucks_df.columns = Starbucks_df.columns.str.strip()
-
 
 # Drop rows with missing values
 Starbucks_df = Starbucks_df[
@@ -20,7 +19,7 @@ Starbucks_df['Protein (g)'] = pd.to_numeric(Starbucks_df['Protein (g)'], errors=
 Starbucks_df['Sugar (g)'] = pd.to_numeric(Starbucks_df['Sugar (g)'], errors='coerce')
 
 # Streamlit config
-st.set_page_config(page_title="Starbucks's Nutrition Filter", layout="wide")
+st.set_page_config(page_title="Starbucks Nutrition Filter", layout="wide")
 st.title("Starbucks Nutrition Filter")
 st.subheader("Find items with High Protein and Low Sugar")
 
@@ -39,14 +38,19 @@ sugar_min, sugar_max = st.slider(
     (0.0, 20.0)
 )
 
-# Filter data
+# Filter data based on sliders
 filtered_Starbucks = Starbucks_df[
     (Starbucks_df['Protein (g)'] >= protein_min) & (Starbucks_df['Protein (g)'] <= protein_max) &
     (Starbucks_df['Sugar (g)'] >= sugar_min) & (Starbucks_df['Sugar (g)'] <= sugar_max)
 ]
 
+# Search bar
+search_term = st.text_input("🔍 Search by item name:")
+if search_term:
+    filtered_Starbucks = filtered_Starbucks[filtered_Starbucks['Item Name'].str.contains(search_term, case=False, na=False)]
+
 # Show results
-st.write(f" Found {len(filtered_Starbucks)} Starbucks's items matching your filters:")
+st.write(f"Found {len(filtered_Starbucks)} Starbucks's items matching your filters:")
 st.dataframe(filtered_Starbucks.reset_index(drop=True))
 
 # Plot results
